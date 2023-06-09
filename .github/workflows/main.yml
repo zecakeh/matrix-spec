@@ -94,9 +94,9 @@ jobs:
       - name: "📦 Asset creation"
         run: |
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-              release = "${GITHUB_REF/refs\/tags\//}"
+            $release = "${GITHUB_REF/refs\/tags\//}"
           else
-              release = "unstable"
+            $release = "unstable"
           fi
           # The output path matches the final deployment path at spec.matrix.org
           scripts/dump-swagger.py \
