@@ -94,25 +94,25 @@ jobs:
       - name: "📦 Asset creation"
         run: |
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-            $release = "${GITHUB_REF/refs\/tags\//}"
+            export RELEASE="${GITHUB_REF/refs\/tags\//}"
           else
-            $release = "unstable"
+            export RELEASE="unstable"
           fi
           # The output path matches the final deployment path at spec.matrix.org
           scripts/dump-swagger.py \
             --base-url "https://spec.matrix.org${{ needs.calculate-baseurl.outputs.baseURL }}" \
             --api application-service \
-            -r "$release" \
+            -r "$RELEASE" \
             -o spec/application-service-api/api.json
           scripts/dump-swagger.py \
             --base-url "https://spec.matrix.org${{ needs.calculate-baseurl.outputs.baseURL }}" \
             --api client-server \
-            -r "$release" \
+            -r "$RELEASE" \
             -o spec/client-server-api/api.json
           scripts/dump-swagger.py \
             --base-url "https://spec.matrix.org${{ needs.calculate-baseurl.outputs.baseURL }}" \
             --api push-gateway \
-            -r "$release" \
+            -r "$RELEASE" \
             -o spec/push-gateway-api/api.json
           tar -czf openapi.tar.gz spec
       - name: "📤 Artifact upload"
